@@ -1,0 +1,142 @@
+/* --- 1. CORE LAYOUT (FIXED VERTICAL SCALING) --- */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100vh; /* Pin to viewport height */
+    width: 100vw;
+    overflow: hidden; 
+    background-color: #121212;
+    color: white;
+    font-family: sans-serif;
+}
+
+#app-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Ensure container is exactly window height */
+    width: 100%;
+    position: relative;
+    z-index: 10;
+    background: transparent !important;
+}
+
+#top-bar {
+    flex: 0 0 50px; /* Fixed height */
+    flex-shrink: 0; /* Prevents disappearing when window is short */
+    background: rgba(37, 37, 37, 0.8);
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    gap: 10px;
+    border-bottom: 1px solid #444;
+}
+
+#cube-area {
+    flex: 1; /* Occupies all remaining vertical space */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: transparent !important;
+    min-height: 0; /* CRITICAL: Allows flex child to shrink below its content size */
+    position: relative;
+}
+
+#controls {
+    flex: 0 0 auto; /* Height based on content */
+    flex-shrink: 0; /* Ensures footer is NEVER hidden */
+    background: rgba(37, 37, 37, 0.8);
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    border-top: 1px solid #444;
+}
+
+/* --- 2. UI COMPONENTS --- */
+.btn-group { display: flex; gap: 10px; }
+.slider-box { display: flex; gap: 10px; align-items: center; }
+
+button {
+    padding: 8px 12px;
+    background: #444;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+button:hover { background: #666; }
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    inset: 0; /* Shorthand for top/right/bottom/left: 0 */
+    background: rgba(0,0,0,0.8);
+    backdrop-filter: blur(4px);
+}
+
+.modal-content {
+    background: #222;
+    margin: 10vh auto;
+    padding: 20px;
+    width: 90%;
+    max-width: 300px;
+    border-radius: 8px;
+    border: 1px solid #444;
+}
+
+/* --- 3. BACKGROUND EFFECTS --- */
+.background-system {
+    position: fixed;
+    inset: 0;
+    z-index: -10;
+    pointer-events: none;
+}
+
+.lines {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: space-around;
+}
+
+.line {
+    position: relative;
+    width: 1px;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    overflow: hidden;
+}
+
+.line::after {
+    content: "";
+    display: block;
+    position: absolute;
+    height: 25vh;
+    width: 2px;
+    top: -50%;
+    left: -0.5px;
+    background: linear-gradient(to bottom, 
+        rgba(255, 255, 255, 0) 0%, 
+        var(--line-color, #fff) 75%, 
+        var(--line-color, #fff) 100%);
+    animation: drop 10s infinite cubic-bezier(0.4, 0.26, 0, 0.97);
+}
+
+@keyframes drop {
+    0% { top: -50%; }
+    100% { top: 110%; }
+}
+
+/* Delay Logic */
+.line:nth-child(1)::after { animation-delay: 1s; }
+.line:nth-child(2)::after { animation-delay: 2.4s; }
+.line:nth-child(3)::after { animation-delay: 5s; }
+.line:nth-child(4)::after { animation-delay: 0.4s; }
+.line:nth-child(5)::after { animation-delay: 6.2s; }
+.line:nth-child(6)::after { animation-delay: 3.6s; }

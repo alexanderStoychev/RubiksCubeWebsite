@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rubik's Solver - High Speed</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="lines">
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+    </div>
+
+    <div id="app-container">
+        <header id="top-bar">
+            <button class="menu-btn" id="open-menu">Menu</button>
+            <button class="menu-btn" id="undo-btn" title="Undo (Ctrl+Z)">↺</button>
+            <button class="menu-btn" id="redo-btn" title="Redo (Ctrl+Y)">↻</button>
+            <div style="flex-grow: 1;"></div> 
+            <button class="menu-btn">Settings</button>
+        </header>
+
+        <div id="cube-area">
+            <canvas id="cube-canvas"></canvas>
+        </div>
+
+        <footer id="controls">
+            <div class="slider-box">
+                <label for="size-slider">Size:</label>
+                <input type="range" id="size-slider" min="100" max="300" value="200">
+            </div>
+            <div class="btn-group">
+                <button id="scramble-btn">Scramble</button>
+                <button id="solve-btn">Solve</button>
+            </div>
+        </footer>
+    </div>
+
+    <div id="controls-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Controls</h2>
+            <hr>
+            <p><strong>R, L, U, D, F, B:</strong> Turn Faces</p>
+            <p><strong>Shift + Key:</strong> Reverse Turn</p>
+            <p><strong>Drag Cubelet:</strong> Rotate Slice</p>
+            <p><strong>Drag Background:</strong> Rotate View</p>
+        </div>
+    </div>
+
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.160.0/build/three.module.js"
+        }
+    }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script type="module" src="script.js"></script>
+</body>
+</html>
