@@ -1,18 +1,38 @@
-/* --- 1. GLOBAL & FONTS --- */
 @import url('https://fonts.googleapis.com/css?family=VT323');
 
-body, html {
+/* Update the top of your style.css */
+html {
+    background-color: #000;
+    /* Move these settings from body to html */
+    background-image: url('bg-pattern.webp');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+    image-rendering: pixelated;
+}
+
+body {
     margin: 0;
     padding: 0;
     height: 100vh;
     width: 100vw;
     overflow: hidden; 
-    background-color: #121212;
+    /* CRITICAL: Must be transparent to see the HTML background */
+    background: transparent !important; 
     color: white;
-    font-family: 'VT323', monospace; /* Default font for the whole app */
+    font-family: 'VT323', monospace; 
+    font-size: 26px;
 }
 
-/* --- 2. CORE LAYOUT --- */
+.background-system {
+    position: fixed;
+    inset: 0;
+    /* Sit between the background image and the UI */
+    z-index: -5; 
+    pointer-events: none;
+}
+
 #app-container {
     display: flex;
     flex-direction: column;
@@ -24,13 +44,13 @@ body, html {
 }
 
 #top-bar {
-    flex: 0 0 50px;
+    flex: 0 0 65px;
     flex-shrink: 0;
-    background: rgba(37, 37, 37, 0.8);
+    background: rgba(20, 20, 20, 0.9);
     display: flex;
     align-items: center;
     padding: 0 15px;
-    gap: 10px;
+    gap: 15px;
     border-bottom: 1px solid #444;
 }
 
@@ -44,100 +64,90 @@ body, html {
 }
 
 #controls {
-    flex: 0 0 auto;
+    flex: 0 0 90px;
     flex-shrink: 0;
-    background: rgba(37, 37, 37, 0.8);
+    background: rgba(20, 20, 20, 0.9);
     padding: 15px;
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 20px;
+    gap: 30px;
     border-top: 1px solid #444;
 }
 
-/* --- 3. RETRO BUTTON COMPONENTS --- */
-.btn-group { display: flex; gap: 10px; }
-.slider-box { display: flex; gap: 10px; align-items: center; }
+.btn-group { display: flex; gap: 15px; }
+.slider-box { display: flex; gap: 15px; align-items: center; }
 
-/* The Base Retro Button Style */
-.btn {
+.btn, .menu-btn {
     background: #7C7C7C;
-    border-bottom: 6px inset rgba(0,0,0,.5);
-    border-left: 6px inset rgba(0,0,0,.5);
-    border-right: 6px inset rgba(255,255,255,.5);
-    border-top: 6px inset rgba(255,255,255,.5);
+    border-bottom: 4px inset rgba(0,0,0,.5);
+    border-left: 4px inset rgba(0,0,0,.5);
+    border-right: 4px inset rgba(255,255,255,.5);
+    border-top: 4px inset rgba(255,255,255,.5);
     box-sizing: border-box;
     color: white;
     cursor: pointer;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     font-family: 'VT323', monospace;
-    font-size: 1.5rem;
-    padding: .3rem 1rem;
     text-transform: uppercase;
-    transition: background 0.1s;
+    transition: background 0.1s, transform 0.05s;
 }
 
-/* Fixed Hover States (Outside the .btn block) */
-.btn:hover { background: #BCBCBC; }
+.menu-btn { font-size: 0.9rem; padding: 4px 12px; height: 38px; }
+.btn { font-size: 1.4rem; padding: 8px 20px; min-width: 150px; height: 52px; }
 
-.btn.primary { background: #d11f00; }
-.btn.primary:hover { background: #ff1900; }
-
-.btn.secondary { background: #00aa00; }
-.btn.secondary:hover { background: #15ff15; }
-
-/* Menu buttons at the top (keep them simple) */
-.menu-btn {
-    padding: 4px 8px;
-    background: #444;
-    color: white;
-    border: 1px solid #666;
-    border-radius: 4px;
-    cursor: pointer;
-    font-family: inherit;
+.btn:hover, .menu-btn:hover { background: #BCBCBC; }
+.btn:active, .menu-btn:active {
+    border-top: 4px inset rgba(0,0,0,.5);
+    border-left: 4px inset rgba(0,0,0,.5);
+    border-bottom: 4px inset rgba(255,255,255,.5);
+    border-right: 4px inset rgba(255,255,255,.5);
+    transform: translateY(2px);
 }
 
-.lines {
-    position: absolute;
+.btn.primary { background: #881400; }
+.btn.primary:hover { background: #A81000; }
+.btn.secondary { background: #005800; }
+.btn.secondary:hover { background: #006800; }
+
+.background-system {
+    position: fixed;
     inset: 0;
-    display: flex;
-    justify-content: space-around;
+    z-index: -10;
+    pointer-events: none;
 }
 
-.line {
-    position: relative;
-    width: 1px;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.05);
-    overflow: hidden;
+.noise {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  opacity: .08;
+  background: url('https://ice-creme.de/images/background-noise.png');
 }
 
-.line::after {
-    content: "";
-    display: block;
-    position: absolute;
-    height: 25vh;
-    width: 2px;
-    top: -50%;
-    left: -0.5px;
-    background: linear-gradient(to bottom, transparent 0%, var(--line-color, #fff) 100%);
-    animation: drop 10s infinite cubic-bezier(0.4, 0.26, 0, 0.97);
+.noise-moving { animation: noise-anim 1s infinite alternate; }
+
+.scanlines {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: .3;
 }
 
-/* --- 5. ANIMATIONS --- */
+.scanlines:before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, .5) 51%);
+  background-size: 100% 4px;
+  animation: scanlines-scroll .2s linear infinite;
+}
+
 @keyframes noise-anim { from { background-position: 0 0; } to { background-position: 5% 5%; } }
 @keyframes scanlines-scroll { from { background-position: 0 0; } to { background-position: 0 4px; } }
-@keyframes drop { 0% { top: -50%; } 100% { top: 110%; } }
 
-/* Delay Logic */
-.line:nth-child(1)::after { animation-delay: 1s; }
-.line:nth-child(2)::after { animation-delay: 2.4s; }
-.line:nth-child(3)::after { animation-delay: 5s; }
-.line:nth-child(4)::after { animation-delay: 0.4s; }
-.line:nth-child(5)::after { animation-delay: 6.2s; }
-.line:nth-child(6)::after { animation-delay: 3.6s; }
-
-/* Modal Styles */
 .modal {
     display: none;
     position: fixed;

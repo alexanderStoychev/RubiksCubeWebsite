@@ -43,12 +43,6 @@ const pointLight = new THREE.PointLight(0xffffff, 150);
 pointLight.position.set(10, 10, 10);
 scene.add(pointLight);
 
-/* Rotation engine:
-@axis: Specifies which way the slice faces (X for sides, Y for top/bottom, Z for front/back)
-@layer: Specifies the exact coordinate (1.05 ot -1.05) to determine which of the three layers to move
-@dir: Direction of rotation (1 for clockwise, -1 for counterclockwise)
-*/
-
 const moveMap = {
     'R': { axis: 'x', layer: 1.05, dir: -1 }, 'L': { axis: 'x', layer: -1.05, dir: 1 },
     'U': { axis: 'y', layer: 1.05, dir: -1 }, 'D': { axis: 'y', layer: -1.05, dir: 1 },
@@ -60,7 +54,7 @@ function rotateSlice(move) {
     isAnimating = true;
     const { axis, layer, dir } = move;
     const pivot = new THREE.Object3D();
-    cubeGroup.add(pivot); // Anchor pivot to the group so it rotates with view
+    cubeGroup.add(pivot);
 
     const slice = cubeGroup.children.filter(c => c !== pivot && Math.abs(c.position[axis] - layer) < 0.1);
     if (slice.length !== 9) { cubeGroup.remove(pivot); isAnimating = false; return; }
@@ -82,8 +76,6 @@ function rotateSlice(move) {
         }
     });
 }
-
-// Interaction handlers
 
 canvas.addEventListener('mousedown', (e) => {
     if (isAnimating) return;
@@ -109,10 +101,8 @@ document.addEventListener('mouseup', (e) => {
         const dx = e.clientX - startMousePos.x, dy = e.clientY - startMousePos.y;
         if (Math.max(Math.abs(dx), Math.abs(dy)) > 30) {
             if (Math.abs(dx) > Math.abs(dy)) {
-                // Horizontal drag moves Y-layers (Rows)
                 moveQueue.push({ axis: 'y', layer: startCubelet.position.y, dir: dx > 0 ? 1 : -1, type: 'manual' });
             } else {
-                // Vertical drag moves X-layers (Columns) - FIXED DIRECTION
                 moveQueue.push({ axis: 'x', layer: startCubelet.position.x, dir: dy > 0 ? 1 : -1, type: 'manual' });
             }
         }
@@ -120,7 +110,6 @@ document.addEventListener('mouseup', (e) => {
     isRotatingView = isDraggingSlice = false;
 });
 
-// UI Controls
 const scramble = () => {
     if (isAnimating || moveQueue.length > 0) return;
     for (let i = 0; i < 60; i++) {
@@ -133,7 +122,6 @@ const scramble = () => {
 const undo = () => historyStack.length > 0 && moveQueue.push({ ...historyStack.pop(), type: 'undo' });
 const redo = () => redoStack.length > 0 && moveQueue.push({ ...redoStack.pop(), type: 'redo' });
 
-// ID listeners
 document.getElementById('scramble-btn').onclick = scramble;
 document.getElementById('undo-btn').onclick = undo;
 document.getElementById('redo-btn').onclick = redo;
@@ -145,11 +133,10 @@ window.addEventListener('keydown', (e) => {
     if (e.ctrlKey && (e.key === 'y' || (e.shiftKey && e.key === 'Z'))) { e.preventDefault(); redo(); }
 });
 
-// Render loop
 function animate() {
     requestAnimationFrame(animate);
     if (moveQueue.length > 0 && !isAnimating) {
-        const m = moveQueue.shift(); // Sequential command processing
+        const m = moveQueue.shift();
         if (m.type === 'manual') { redoStack = []; historyStack.push({ ...m, dir: -m.dir }); }
         else if (m.type === 'undo') redoStack.push({ ...m, dir: -m.dir });
         else if (m.type === 'redo') historyStack.push({ ...m, dir: -m.dir });
@@ -159,7 +146,6 @@ function animate() {
 }
 animate();
 
-// UTILS
 const modal = document.getElementById("controls-modal");
 document.getElementById("open-menu").onclick = () => modal.style.display = "block";
 document.querySelector(".close-btn").onclick = () => modal.style.display = "none";
@@ -172,19 +158,29 @@ window.onresize = () => {
     renderer.setSize(container.clientWidth, container.clientHeight);
 };
 
-//Background line color randomizer
-const rubiksColors = ['#b71234', '#ff5800', '#0046ad', '#009b48', '#ffffff', '#ffd500'];
-const lineElements = document.querySelectorAll('.line');
+// --- UPDATED BACKGROUND CYCLER ---
+const backgroundImages = [
+      'darkgrey-pattern.webp',
+      'lightgrey-pattern.webp',
+      'white-pattern.webp',
+      'purple-pattern.webp',
+      'green-pattern.webp',
+      'orange-pattern.webp'
+];
 
-function randomizeLineColors() {
-    lineElements.forEach(line => {
-        // Pick a unique random color for THIS specific line
-        const randomColor = rubiksColors[Math.floor(Math.random() * rubiksColors.length)];
-        
-        // Apply the color directly to the individual element's style
-        line.style.setProperty('--line-color', randomColor);
-    });
-}
+let currentBgIndex = 0;
 
-// Set initial random colors
-randomizeLineColors();
+document.getElementById('bg-switch-btn').onclick = () => {
+    currentBgIndex = (currentBgIndex + 1) % backgroundImages.length;
+    
+    // Target the <html> element
+    const root = document.documentElement;
+    
+    // Update the image
+    root.style.backgroundImage = `url('${backgroundImages[currentBgIndex]}')`;
+    
+    // Ensure the sizing doesn't break during the switch
+    root.style.backgroundSize = "cover";
+    root.style.backgroundRepeat = "no-repeat";
+    root.style.backgroundPosition = "center";
+};

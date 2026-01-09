@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rubik's Solver - Retro VHS</title>
+    <title>Rubik's Solver - Retro Cube</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -11,19 +11,12 @@
     <div class="background-system">
         <div class="scanlines"></div>
         <div class="noise noise-moving"></div>
-        <div class="lines">
-            <div class="line"></div>
-            <div class="line"></div>
-            <div class="line"></div>
-            <div class="line"></div>
-            <div class="line"></div>
-            <div class="line"></div>
-        </div>
     </div>
 
     <div id="app-container">
         <header id="top-bar">
             <button class="menu-btn" id="open-menu">Menu</button>
+            <button class="menu-btn" id="bg-switch-btn" title="Change Background">🖼️ Theme</button>
             <button class="menu-btn" id="undo-btn" title="Undo (Ctrl+Z)">↺</button>
             <button class="menu-btn" id="redo-btn" title="Redo (Ctrl+Y)">↻</button>
             <div style="flex-grow: 1;"></div> 
