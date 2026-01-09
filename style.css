@@ -1,19 +1,22 @@
-/* --- 1. CORE LAYOUT (FIXED VERTICAL SCALING) --- */
+/* --- 1. GLOBAL & FONTS --- */
+@import url('https://fonts.googleapis.com/css?family=VT323');
+
 body, html {
     margin: 0;
     padding: 0;
-    height: 100vh; /* Pin to viewport height */
+    height: 100vh;
     width: 100vw;
     overflow: hidden; 
     background-color: #121212;
     color: white;
-    font-family: sans-serif;
+    font-family: 'VT323', monospace; /* Default font for the whole app */
 }
 
+/* --- 2. CORE LAYOUT --- */
 #app-container {
     display: flex;
     flex-direction: column;
-    height: 100vh; /* Ensure container is exactly window height */
+    height: 100vh;
     width: 100%;
     position: relative;
     z-index: 10;
@@ -21,8 +24,8 @@ body, html {
 }
 
 #top-bar {
-    flex: 0 0 50px; /* Fixed height */
-    flex-shrink: 0; /* Prevents disappearing when window is short */
+    flex: 0 0 50px;
+    flex-shrink: 0;
     background: rgba(37, 37, 37, 0.8);
     display: flex;
     align-items: center;
@@ -32,18 +35,17 @@ body, html {
 }
 
 #cube-area {
-    flex: 1; /* Occupies all remaining vertical space */
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    background: transparent !important;
-    min-height: 0; /* CRITICAL: Allows flex child to shrink below its content size */
+    min-height: 0;
     position: relative;
 }
 
 #controls {
-    flex: 0 0 auto; /* Height based on content */
-    flex-shrink: 0; /* Ensures footer is NEVER hidden */
+    flex: 0 0 auto;
+    flex-shrink: 0;
     background: rgba(37, 37, 37, 0.8);
     padding: 15px;
     display: flex;
@@ -53,49 +55,46 @@ body, html {
     border-top: 1px solid #444;
 }
 
-/* --- 2. UI COMPONENTS --- */
+/* --- 3. RETRO BUTTON COMPONENTS --- */
 .btn-group { display: flex; gap: 10px; }
 .slider-box { display: flex; gap: 10px; align-items: center; }
 
-button {
-    padding: 8px 12px;
+/* The Base Retro Button Style */
+.btn {
+    background: #7C7C7C;
+    border-bottom: 6px inset rgba(0,0,0,.5);
+    border-left: 6px inset rgba(0,0,0,.5);
+    border-right: 6px inset rgba(255,255,255,.5);
+    border-top: 6px inset rgba(255,255,255,.5);
+    box-sizing: border-box;
+    color: white;
+    cursor: pointer;
+    display: inline-block;
+    font-family: 'VT323', monospace;
+    font-size: 1.5rem;
+    padding: .3rem 1rem;
+    text-transform: uppercase;
+    transition: background 0.1s;
+}
+
+/* Fixed Hover States (Outside the .btn block) */
+.btn:hover { background: #BCBCBC; }
+
+.btn.primary { background: #d11f00; }
+.btn.primary:hover { background: #ff1900; }
+
+.btn.secondary { background: #00aa00; }
+.btn.secondary:hover { background: #15ff15; }
+
+/* Menu buttons at the top (keep them simple) */
+.menu-btn {
+    padding: 4px 8px;
     background: #444;
     color: white;
-    border: none;
+    border: 1px solid #666;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 14px;
-    white-space: nowrap;
-}
-
-button:hover { background: #666; }
-
-/* Modal Styles */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    inset: 0; /* Shorthand for top/right/bottom/left: 0 */
-    background: rgba(0,0,0,0.8);
-    backdrop-filter: blur(4px);
-}
-
-.modal-content {
-    background: #222;
-    margin: 10vh auto;
-    padding: 20px;
-    width: 90%;
-    max-width: 300px;
-    border-radius: 8px;
-    border: 1px solid #444;
-}
-
-/* --- 3. BACKGROUND EFFECTS --- */
-.background-system {
-    position: fixed;
-    inset: 0;
-    z-index: -10;
-    pointer-events: none;
+    font-family: inherit;
 }
 
 .lines {
@@ -121,17 +120,14 @@ button:hover { background: #666; }
     width: 2px;
     top: -50%;
     left: -0.5px;
-    background: linear-gradient(to bottom, 
-        rgba(255, 255, 255, 0) 0%, 
-        var(--line-color, #fff) 75%, 
-        var(--line-color, #fff) 100%);
+    background: linear-gradient(to bottom, transparent 0%, var(--line-color, #fff) 100%);
     animation: drop 10s infinite cubic-bezier(0.4, 0.26, 0, 0.97);
 }
 
-@keyframes drop {
-    0% { top: -50%; }
-    100% { top: 110%; }
-}
+/* --- 5. ANIMATIONS --- */
+@keyframes noise-anim { from { background-position: 0 0; } to { background-position: 5% 5%; } }
+@keyframes scanlines-scroll { from { background-position: 0 0; } to { background-position: 0 4px; } }
+@keyframes drop { 0% { top: -50%; } 100% { top: 110%; } }
 
 /* Delay Logic */
 .line:nth-child(1)::after { animation-delay: 1s; }
@@ -140,3 +136,22 @@ button:hover { background: #666; }
 .line:nth-child(4)::after { animation-delay: 0.4s; }
 .line:nth-child(5)::after { animation-delay: 6.2s; }
 .line:nth-child(6)::after { animation-delay: 3.6s; }
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    inset: 0;
+    background: rgba(0,0,0,0.8);
+    backdrop-filter: blur(4px);
+}
+
+.modal-content {
+    background: #222;
+    margin: 10vh auto;
+    padding: 20px;
+    width: 300px;
+    border-radius: 8px;
+    border: 1px solid #444;
+}

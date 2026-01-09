@@ -3,18 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rubik's Solver - High Speed</title>
+    <title>Rubik's Solver - Retro VHS</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="lines">
-        <div class="line"></div>
-        <div class="line"></div>
-        <div class="line"></div>
-        <div class="line"></div>
-        <div class="line"></div>
-        <div class="line"></div>
+    <div class="background-system">
+        <div class="scanlines"></div>
+        <div class="noise noise-moving"></div>
+        <div class="lines">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
     </div>
 
     <div id="app-container">
@@ -36,8 +40,8 @@
                 <input type="range" id="size-slider" min="100" max="300" value="200">
             </div>
             <div class="btn-group">
-                <button id="scramble-btn">Scramble</button>
-                <button id="solve-btn">Solve</button>
+                <button id="scramble-btn" class="btn secondary">Scramble</button> 
+                <button id="solve-btn" class="btn primary">Solve</button>
             </div>
         </footer>
     </div>
@@ -49,7 +53,7 @@
             <hr>
             <p><strong>R, L, U, D, F, B:</strong> Turn Faces</p>
             <p><strong>Shift + Key:</strong> Reverse Turn</p>
-            <p><strong>Drag Cubelet:</strong> Rotate Slice</p>
+            <p><strong>Drag Cube:</strong> Rotate Slice</p>
             <p><strong>Drag Background:</strong> Rotate View</p>
         </div>
     </div>
