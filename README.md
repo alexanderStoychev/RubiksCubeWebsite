@@ -106,19 +106,4 @@ When you’re ready, you can drop images into the repo (for example: `assets/`) 
 - Save/load cube states
 - Expanded settings panel
 
----
-
-## Contributing
-
-Contributions are welcome.
-
-- Keep the UI consistent with the retro aesthetic
-- Avoid heavy dependencies unless necessary
-- Verify controls still work (keyboard + drag) after changes
-
----
-
-## License
-
-Add your license here (for example, MIT).
 
