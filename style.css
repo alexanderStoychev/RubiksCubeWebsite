@@ -4,7 +4,7 @@
 html {
     background-color: #000;
     /* Move these settings from body to html */
-    background-image: url('bg-pattern.webp');
+    background-image: url('darkgrey-pattern.webp');
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -46,12 +46,17 @@ body {
 #top-bar {
     flex: 0 0 65px;
     flex-shrink: 0;
-    background: rgba(20, 20, 20, 0.9);
+    background: #bcbcbc; 
     display: flex;
     align-items: center;
-    padding: 0 15px;
-    gap: 15px;
-    border-bottom: 1px solid #444;
+    /* Remove horizontal padding so buttons touch the very edges */
+    padding: 0; 
+    gap: 0; /* Buttons will now sit side-by-side */
+    border-top: 4px solid #eeeeee;
+    border-left: 4px solid #eeeeee;
+    border-bottom: 4px solid #555555;
+    box-sizing: border-box;
+    z-index: 20;
 }
 
 #cube-area {
@@ -66,13 +71,23 @@ body {
 #controls {
     flex: 0 0 90px;
     flex-shrink: 0;
-    background: rgba(20, 20, 20, 0.9);
+    /* Matching industrial grey */
+    background: #bcbcbc;
     padding: 15px;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 30px;
-    border-top: 1px solid #444;
+    /* 3D Bevel effect reversed for the bottom bar */
+    border-top: 4px solid #eeeeee;
+    border-bottom: 4px solid #555555;
+    border-left: 4px solid #eeeeee;
+    box-sizing: border-box;
+}
+
+#controls label {
+    color: #222;
+    font-weight: bold;
 }
 
 .btn-group { display: flex; gap: 15px; }
@@ -95,8 +110,8 @@ body {
     transition: background 0.1s, transform 0.05s;
 }
 
-.menu-btn { font-size: 0.9rem; padding: 4px 12px; height: 38px; }
-.btn { font-size: 1.4rem; padding: 8px 20px; min-width: 150px; height: 52px; }
+.menu-btn { font-size: 1.6rem; padding: 4px 12px; height: 54px; }
+.btn { font-size: 1.4rem; padding: 8px 20px; min-width: 150px; height: 54px; }
 
 .btn:hover, .menu-btn:hover { background: #BCBCBC; }
 .btn:active, .menu-btn:active {
@@ -111,6 +126,49 @@ body {
 .btn.primary:hover { background: #A81000; }
 .btn.secondary { background: #005800; }
 .btn.secondary:hover { background: #006800; }
+
+#modes-btn {
+    font-size: 1.6rem;
+    padding: 4px 12px;
+    height: 54px;
+    width: 400px;
+    margin-left: 20px;
+    margin-right: 20px;
+    background-color: blue;
+}
+
+#bg-switch-btn {
+    background-color: rgb(0, 182, 0);
+}
+
+#open-menu {
+    background-color: rgb(255, 0, 0);
+}
+#undo-btn, #redo-btn {
+    background-color: rgb(255, 174, 0);
+}
+#reset-btn {
+    background-color: rgb(12, 192, 5);
+}
+
+#login-btn{
+    background-color: rgb(12, 192, 5);
+}
+
+#account-btn{
+    background-color: rgb(255, 255, 0);
+}
+
+#settings-btn{
+    background-color: rgb(255, 0, 0);
+}
+
+.account-img {
+    height: 80%; /* Prevents the image from touching the 3D borders */
+    width: auto;
+    image-rendering: pixelated; /* Keeps pixel-art icons from blurring */
+    pointer-events: none;       /* Prevents the image from blocking the button click */
+}
 
 .background-system {
     position: fixed;
