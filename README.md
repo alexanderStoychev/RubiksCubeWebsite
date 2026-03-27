@@ -2,7 +2,6 @@
 
 Retro Cube is a retro-styled, browser-based **Rubik’s Cube visualizer and solver** built with **Three.js**. It runs as a simple static site (no build step) and focuses on smooth interactions, a nostalgic UI, and fast cube control.
 
-![GUI](readme.png)
 <img src="readme.png" style="width: 50%;">
 
 ---
