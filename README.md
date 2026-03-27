@@ -86,24 +86,5 @@ npx serve .
 - `*.webp` — background patterns
 - `user-icon.png` — UI icon
 
----
-
-## Adding screenshots later
-
-When you’re ready, you can drop images into the repo (for example: `assets/`) and add something like this near the top:
-
-```md
-![Retro Cube screenshot](assets/screenshot-1.png)
-```
-
----
-
-## Roadmap (ideas)
-
-- Improved mobile/touch ergonomics
-- Solver visibility (move list, notation, step-by-step playback)
-- Additional puzzle sizes / variants
-- Save/load cube states
-- Expanded settings panel
 
 
