@@ -16,11 +16,15 @@
     <div id="app-container">
         <header id="top-bar">
             <button class="menu-btn" id="open-menu">Menu</button>
-            <button class="menu-btn" id="bg-switch-btn" title="Change Background">🖼️ Theme</button>
             <button class="menu-btn" id="undo-btn" title="Undo (Ctrl+Z)">↺</button>
             <button class="menu-btn" id="redo-btn" title="Redo (Ctrl+Y)">↻</button>
+            <button class="menu-btn" id="reset-btn" >Reset</button>
             <div style="flex-grow: 1;"></div> 
-            <button class="menu-btn">Settings</button>
+            <button id = "modes-btn" class="btn primary">Modes</button>
+            <div style="flex-grow: 1;"></div> 
+            <button class="menu-btn" id = "login-btn">Log In</button>
+            <button class="menu-btn" id = "account-btn"><img src="user-icon.png" class="account-img" alt="Account"></button>
+            <button class="menu-btn" id = "settings-btn">Settings</button>
         </header>
 
         <div id="cube-area">
@@ -35,6 +39,7 @@
             <div class="btn-group">
                 <button id="scramble-btn" class="btn secondary">Scramble</button> 
                 <button id="solve-btn" class="btn primary">Solve</button>
+                <button class="menu-btn" id="bg-switch-btn" title="Change Background">Background</button>
             </div>
         </footer>
     </div>
